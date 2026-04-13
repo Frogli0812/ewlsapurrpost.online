@@ -1,0 +1,131 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: cat-book-backend
+  
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://mysql8.8ymc.cn:3306/cat_book?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username:
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # HikariCP连接池配置
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000  # 20分钟
+      leak-detection-threshold: 60000
+    
+  # JPA配置
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    open-in-view: false
+    
+  # Redis配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      database: 0
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+          
+  # Jackson配置
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+    
+  # MVC配置
+  mvc:
+    favicon:
+      enabled: false  # 禁用favicon处理
+    
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# Sa-Token配置
+sa-token:
+  # token 名称（同时也是 cookie 名称）
+  token-name: satoken
+  # token 有效期，单位秒，-1 代表永不过期
+  timeout: 7200
+  # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  active-timeout: -1
+  # 是否允许同一账号并发登录（为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  is-share: false
+  # 是否尝试从 header 里读取 token
+  is-read-header: true
+  # 是否尝试从 cookie 里读取 token
+  is-read-cookie: false
+  # token 前缀
+  token-prefix: "Bearer"
+  # jwt秘钥
+  jwt-secret-key: "cat-book-backend-jwt-secret-key-2023"
+  # 是否输出操作日志
+  is-log: true
+
+# 业务配置
+app:
+  # 营业时间配置
+  business:
+    start-hour: 10
+    end-hour: 18
+    max-visitors-per-slot: 5
+    time-slot-duration: 30
+    closed-days: 1  # 周一休息 (1=周一, 7=周日)
+    
+  # 文件存储配置
+  file:
+    upload-path: /app/uploads/
+    max-size: 10MB
+    allowed-types: jpg,jpeg,png,gif,bmp,webp
+
+# 日志配置
+logging:
+  level:
+    cc.mymc.catbookbackend: info
+    org.springframework.web: warn
+    org.springframework.web.servlet.DispatcherServlet: warn
+    org.hibernate.SQL: info
+    org.hibernate.type.descriptor.sql.BasicBinder: warn
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/cat-book-backend.log
+    max-size: 100MB
+    max-history: 30
+
+# 管理端配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized

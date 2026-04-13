@@ -1,0 +1,3 @@
+apis:
+  cat-book-server2025-10-12/cat-book-server/docs/api-spec.yaml:
+    alias: api

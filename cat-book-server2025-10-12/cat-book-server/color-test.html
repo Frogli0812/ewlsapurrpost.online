@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级颜色优化效果预览</title>
+    <link rel="stylesheet" href="public/css/main.css">
+    <style>
+        .demo-container { margin: 2rem; padding: 2rem; }
+        .demo-section { margin: 2rem 0; }
+        .color-comparison { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .old-style { background: #ffecb3; color: #ffecb3; }
+        .new-style { color: #6a4c93; font-weight: 600; }
+        .preview-card { 
+            background: white; 
+            padding: 1rem; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎨 班级字体颜色优化效果</h1>
+        
+        <div class="demo-section">
+            <h2>对比效果</h2>
+            <div class="color-comparison">
+                <div class="preview-card">
+                    <h3>优化前</h3>
+                    <div class="student-info">
+                        <div class="student-name">张三</div>
+                        <div class="old-style">计算机1班</div>
+                    </div>
+                    <p>问题：浅黄色在白色背景上难以阅读</p>
+                </div>
+                
+                <div class="preview-card">
+                    <h3>优化后</h3>
+                    <div class="student-info">
+                        <div class="student-name">张三</div>
+                        <div class="student-class">计算机1班</div>
+                    </div>
+                    <p>效果：深紫色提供良好对比度，更易阅读</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>预约位置卡片预览</h2>
+            <div class="positions-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div class="position-card booked">
+                    <div class="position-number">1</div>
+                    <div class="student-info">
+                        <div class="student-name">李四</div>
+                        <div class="student-class">软件工程1班</div>
+                        <div class="note">很期待见到小猫</div>
+                    </div>
+                </div>
+                
+                <div class="position-card booked">
+                    <div class="position-number">2</div>
+                    <div class="student-info">
+                        <div class="student-name">王五</div>
+                        <div class="student-class">计算机科学2班</div>
+                    </div>
+                </div>
+                
+                <div class="position-card available">
+                    <div class="position-number">3</div>
+                    <div style="color: #6a4c93; font-size: 1.2rem;">
+                        <i class="fas fa-plus" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                        <div>点击预约</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>查询结果预览</h2>
+            <div class="booking-card confirmed">
+                <div class="booking-header">
+                    <span class="date">2023-12-15</span>
+                    <span class="time">14:00-14:30</span>
+                    <span class="status confirmed">已确认</span>
+                </div>
+                <div class="booking-details">
+                    <p><i class="fas fa-user"></i> 网络工程1班 - 赵六</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 位置：第 1 个</p>
+                    <p><i class="fas fa-sticky-note"></i> 备注：第一次来撸猫</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>颜色说明</h2>
+            <ul>
+                <li><strong>学生姓名</strong>：#2c3e50 (深蓝灰色) - 粗体显示，主要信息</li>
+                <li><strong>班级信息</strong>：#6a4c93 (深紫色) - 半粗体显示，辅助信息</li>
+                <li><strong>背景优化</strong>：已预约卡片添加半透明白色背景，增强可读性</li>
+                <li><strong>对比度</strong>：所有颜色都符合WCAG可访问性标准</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</body>
+</html>

@@ -1,0 +1,1076 @@
+openapi: 3.0.3
+info:
+  title: 撸猫社团预约系统 API
+  description: |
+    WLSA PurrPost 豆花喵语栈预约系统的后端API接口文档。
+    
+    ## 功能概述
+    - 猫咪信息管理
+    - 预约时间段管理
+    - 用户预约操作
+    - 统计数据查询
+    
+    ## 业务规则
+    - 每个时间段最多5人预约
+    - 营业时间: 周二至周日 10:00-18:00
+    - 时间段间隔: 30分钟
+    - 预约需要提前至少1小时取消
+    
+  version: 1.0.0
+  contact:
+    name: 开发团队
+    email: dev@wlsa-purrpost.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000/api
+    description: 本地开发服务器
+  - url: https://api.wlsa-purrpost.com
+    description: 生产环境服务器
+
+tags:
+  - name: cats
+    description: 猫咪信息管理
+  - name: bookings
+    description: 预约管理
+  - name: timeslots
+    description: 时间段管理
+  - name: statistics
+    description: 统计数据
+
+paths:
+  /cats:
+    get:
+      tags:
+        - cats
+      summary: 获取所有猫咪信息
+      description: 返回系统中所有活跃猫咪的信息列表
+      responses:
+        '200':
+          description: 成功获取猫咪列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Cat'
+              example:
+                success: true
+                data:
+                  - id: 1
+                    name: "橘子"
+                    breed: "橘猫"
+                    age: 2
+                    personality: "温顺、贪吃、喜欢被摸肚子"
+                    favoriteToy: "毛线球"
+                    imageUrl: null
+                    isActive: true
+                    healthStatus: "healthy"
+                    specialNotes: ""
+                    createdAt: "2023-01-01T00:00:00Z"
+                    updatedAt: "2023-01-01T00:00:00Z"
+                message: ""
+                errors: []
+                timestamp: "2023-12-01T10:00:00Z"
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    post:
+      tags:
+        - cats
+      summary: 添加新猫咪
+      description: 添加新的猫咪信息到系统中
+      security:
+        - AdminAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatInput'
+      responses:
+        '201':
+          description: 成功创建猫咪
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Cat'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /cats/{catId}:
+    get:
+      tags:
+        - cats
+      summary: 获取指定猫咪信息
+      description: 根据猫咪ID获取详细信息
+      parameters:
+        - name: catId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 猫咪ID
+      responses:
+        '200':
+          description: 成功获取猫咪信息
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Cat'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    put:
+      tags:
+        - cats
+      summary: 更新猫咪信息
+      description: 更新指定猫咪的信息
+      security:
+        - AdminAuth: []
+      parameters:
+        - name: catId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 猫咪ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatInput'
+      responses:
+        '200':
+          description: 成功更新猫咪信息
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Cat'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      tags:
+        - cats
+      summary: 删除猫咪信息
+      description: 从系统中删除指定猫咪（软删除，设置为不活跃状态）
+      security:
+        - AdminAuth: []
+      parameters:
+        - name: catId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 猫咪ID
+      responses:
+        '200':
+          description: 成功删除猫咪
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /bookings:
+    get:
+      tags:
+        - bookings
+      summary: 获取预约列表
+      description: 获取预约列表，支持查询参数过滤
+      parameters:
+        - name: date
+          in: query
+          schema:
+            type: string
+            format: date
+          description: 按日期过滤 (YYYY-MM-DD)
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [confirmed, cancelled, completed, no_show]
+          description: 按状态过滤
+        - name: phone
+          in: query
+          schema:
+            type: string
+          description: 按手机号查询
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: 页码
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: 每页数量
+      responses:
+        '200':
+          description: 成功获取预约列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          bookings:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Booking'
+                          pagination:
+                            $ref: '#/components/schemas/Pagination'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    post:
+      tags:
+        - bookings
+      summary: 创建新预约
+      description: 用户创建新的预约
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingInput'
+            example:
+              date: "2023-12-15"
+              time: "14:00"
+              name: "张三"
+              phone: "13800138000"
+              note: "第一次来，很期待"
+              numberOfPeople: 2
+              email: "zhang@example.com"
+      responses:
+        '201':
+          description: 成功创建预约
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Booking'
+              example:
+                success: true
+                data:
+                  id: 123
+                  date: "2023-12-15"
+                  time: "14:00"
+                  name: "张三"
+                  phone: "13800138000"
+                  note: "第一次来，很期待"
+                  status: "confirmed"
+                  numberOfPeople: 2
+                  email: "zhang@example.com"
+                  timeSlotDescription: "14:00-14:30"
+                  canCancel: true
+                  createdAt: "2023-12-01T10:00:00Z"
+                message: "预约创建成功"
+                errors: []
+                timestamp: "2023-12-01T10:00:00Z"
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
+          description: 时间段冲突或已满
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                data: null
+                message: "该时间段已满，请选择其他时间段"
+                errors: ["时间段容量不足"]
+                timestamp: "2023-12-01T10:00:00Z"
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /bookings/{bookingId}:
+    get:
+      tags:
+        - bookings
+      summary: 获取预约详情
+      description: 根据预约ID获取详细信息
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 预约ID
+      responses:
+        '200':
+          description: 成功获取预约详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Booking'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    put:
+      tags:
+        - bookings
+      summary: 更新预约信息
+      description: 更新预约的详细信息
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 预约ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingInput'
+      responses:
+        '200':
+          description: 成功更新预约
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Booking'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+    delete:
+      tags:
+        - bookings
+      summary: 取消预约
+      description: 取消指定的预约
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: 预约ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cancelReason:
+                  type: string
+                  description: 取消原因
+                  maxLength: 200
+              example:
+                cancelReason: "临时有事无法前来"
+      responses:
+        '200':
+          description: 成功取消预约
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                data: null
+                message: "预约已成功取消"
+                errors: []
+                timestamp: "2023-12-01T10:00:00Z"
+        '400':
+          description: 无法取消预约
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                data: null
+                message: "预约时间过近，无法取消"
+                errors: ["距离预约时间不足1小时"]
+                timestamp: "2023-12-01T10:00:00Z"
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /available-slots:
+    get:
+      tags:
+        - timeslots
+      summary: 获取可用时间段
+      description: 查询指定日期的可用时间段信息
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description: 查询日期 (YYYY-MM-DD)
+          example: "2023-12-15"
+      responses:
+        '200':
+          description: 成功获取可用时间段
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TimeSlot'
+              example:
+                success: true
+                data:
+                  - time: "10:00"
+                    date: "2023-12-15"
+                    timeSlotDescription: "10:00-10:30"
+                    totalCapacity: 5
+                    bookedCount: 2
+                    availableCapacity: 3
+                    isAvailable: true
+                    isFull: false
+                    notes: ""
+                  - time: "10:30"
+                    date: "2023-12-15"
+                    timeSlotDescription: "10:30-11:00"
+                    totalCapacity: 5
+                    bookedCount: 5
+                    availableCapacity: 0
+                    isAvailable: false
+                    isFull: true
+                    notes: ""
+                message: ""
+                errors: []
+                timestamp: "2023-12-01T10:00:00Z"
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /statistics:
+    get:
+      tags:
+        - statistics
+      summary: 获取统计数据
+      description: 获取系统的各项统计数据
+      security:
+        - AdminAuth: []
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [daily, weekly, monthly, yearly]
+            default: monthly
+          description: 统计周期
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: 开始日期
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: 结束日期
+      responses:
+        '200':
+          description: 成功获取统计数据
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Statistics'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /health:
+    get:
+      tags:
+        - system
+      summary: 健康检查
+      description: 检查API服务健康状态
+      responses:
+        '200':
+          description: 服务正常
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                    example: "1.0.0"
+
+components:
+  schemas:
+    Cat:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 猫咪唯一标识
+          example: 1
+        name:
+          type: string
+          description: 猫咪名字
+          example: "橘子"
+        breed:
+          type: string
+          description: 品种
+          example: "橘猫"
+        age:
+          type: number
+          minimum: 0
+          maximum: 30
+          description: 年龄(岁)
+          example: 2
+        personality:
+          type: string
+          description: 性格描述
+          example: "温顺、贪吃、喜欢被摸肚子"
+        favoriteToy:
+          type: string
+          description: 最喜欢的玩具
+          example: "毛线球"
+        imageUrl:
+          type: string
+          nullable: true
+          description: 照片URL
+          example: null
+        isActive:
+          type: boolean
+          description: 是否活跃(可预约)
+          example: true
+        healthStatus:
+          type: string
+          enum: [healthy, sick, recovering]
+          description: 健康状态
+          example: "healthy"
+        specialNotes:
+          type: string
+          description: 特殊说明
+          example: ""
+        createdAt:
+          type: string
+          format: date-time
+          description: 创建时间
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新时间
+
+    CatInput:
+      type: object
+      required:
+        - name
+        - breed
+        - age
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: 猫咪名字
+        breed:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: 品种
+        age:
+          type: number
+          minimum: 0
+          maximum: 30
+          description: 年龄(岁)
+        personality:
+          type: string
+          maxLength: 200
+          description: 性格描述
+        favoriteToy:
+          type: string
+          maxLength: 100
+          description: 最喜欢的玩具
+        imageUrl:
+          type: string
+          format: uri
+          description: 照片URL
+        isActive:
+          type: boolean
+          default: true
+          description: 是否活跃(可预约)
+        healthStatus:
+          type: string
+          enum: [healthy, sick, recovering]
+          default: healthy
+          description: 健康状态
+        specialNotes:
+          type: string
+          maxLength: 500
+          description: 特殊说明
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 预约唯一标识
+          example: 123
+        date:
+          type: string
+          format: date
+          description: 预约日期
+          example: "2023-12-15"
+        time:
+          type: string
+          pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]$'
+          description: 预约时间 (HH:mm)
+          example: "14:00"
+        name:
+          type: string
+          description: 预约人姓名
+          example: "张三"
+        phone:
+          type: string
+          pattern: '^1[3-9]\d{9}$'
+          description: 联系电话
+          example: "13800138000"
+        note:
+          type: string
+          description: 备注信息
+          example: "第一次来，很期待"
+        status:
+          type: string
+          enum: [confirmed, cancelled, completed, no_show]
+          description: 预约状态
+          example: "confirmed"
+        numberOfPeople:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: 预约人数
+          example: 2
+        email:
+          type: string
+          format: email
+          description: 邮箱(可选)
+          example: "zhang@example.com"
+        emergencyContact:
+          type: string
+          description: 紧急联系人(可选)
+        isFirstTime:
+          type: boolean
+          description: 是否首次预约
+          example: true
+        timeSlotDescription:
+          type: string
+          description: 时间段描述
+          example: "14:00-14:30"
+        canCancel:
+          type: boolean
+          description: 是否可以取消
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          description: 创建时间
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新时间
+        cancelledAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: 取消时间
+        cancelReason:
+          type: string
+          description: 取消原因
+
+    BookingInput:
+      type: object
+      required:
+        - date
+        - time
+        - name
+        - phone
+      properties:
+        date:
+          type: string
+          format: date
+          description: 预约日期
+        time:
+          type: string
+          pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]$'
+          description: 预约时间 (HH:mm)
+        name:
+          type: string
+          minLength: 2
+          maxLength: 20
+          description: 预约人姓名
+        phone:
+          type: string
+          pattern: '^1[3-9]\d{9}$'
+          description: 联系电话
+        note:
+          type: string
+          maxLength: 200
+          description: 备注信息
+        numberOfPeople:
+          type: integer
+          minimum: 1
+          maximum: 5
+          default: 1
+          description: 预约人数
+        email:
+          type: string
+          format: email
+          description: 邮箱(可选)
+        emergencyContact:
+          type: string
+          maxLength: 50
+          description: 紧急联系人(可选)
+
+    TimeSlot:
+      type: object
+      properties:
+        time:
+          type: string
+          pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]$'
+          description: 时间 (HH:mm)
+          example: "14:00"
+        date:
+          type: string
+          format: date
+          description: 日期
+          example: "2023-12-15"
+        timeSlotDescription:
+          type: string
+          description: 时间段描述
+          example: "14:00-14:30"
+        totalCapacity:
+          type: integer
+          description: 总容量
+          example: 5
+        bookedCount:
+          type: integer
+          description: 已预约人数
+          example: 2
+        availableCapacity:
+          type: integer
+          description: 剩余容量
+          example: 3
+        isAvailable:
+          type: boolean
+          description: 是否可预约
+          example: true
+        isFull:
+          type: boolean
+          description: 是否已满
+          example: false
+        notes:
+          type: string
+          description: 特殊说明
+
+    Statistics:
+      type: object
+      properties:
+        totalCats:
+          type: integer
+          description: 猫咪总数
+          example: 3
+        totalBookings:
+          type: integer
+          description: 总预约数
+          example: 156
+        totalVisitors:
+          type: integer
+          description: 总访客数
+          example: 156
+        activeBookings:
+          type: integer
+          description: 活跃预约数
+          example: 12
+        completedBookings:
+          type: integer
+          description: 已完成预约数
+          example: 128
+        cancelledBookings:
+          type: integer
+          description: 已取消预约数
+          example: 16
+        cancellationRate:
+          type: string
+          description: 取消率(%)
+          example: "10.26"
+        completionRate:
+          type: string
+          description: 完成率(%)
+          example: "82.05"
+        averageRating:
+          type: number
+          minimum: 0
+          maximum: 5
+          description: 平均评分
+          example: 4.8
+        monthlyBookings:
+          type: array
+          items:
+            type: object
+            properties:
+              month:
+                type: string
+                example: "2023-12"
+              count:
+                type: integer
+                example: 45
+        popularTimeSlots:
+          type: array
+          items:
+            type: object
+            properties:
+              time:
+                type: string
+                example: "14:00"
+              count:
+                type: integer
+                example: 28
+        generatedAt:
+          type: string
+          format: date-time
+          description: 统计生成时间
+
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: 操作是否成功
+          example: true
+        data:
+          description: 响应数据
+        message:
+          type: string
+          description: 响应消息
+          example: ""
+        errors:
+          type: array
+          items:
+            type: string
+          description: 错误信息列表
+          example: []
+        timestamp:
+          type: string
+          format: date-time
+          description: 响应时间戳
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: 当前页码
+          example: 1
+        limit:
+          type: integer
+          description: 每页数量
+          example: 20
+        total:
+          type: integer
+          description: 总记录数
+          example: 156
+        totalPages:
+          type: integer
+          description: 总页数
+          example: 8
+        hasNext:
+          type: boolean
+          description: 是否有下一页
+          example: true
+        hasPrev:
+          type: boolean
+          description: 是否有上一页
+          example: false
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        data:
+          nullable: true
+          example: null
+        message:
+          type: string
+          description: 错误消息
+        errors:
+          type: array
+          items:
+            type: string
+          description: 详细错误信息
+        timestamp:
+          type: string
+          format: date-time
+
+  responses:
+    ValidationError:
+      description: 数据验证错误
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            data: null
+            message: "数据验证失败"
+            errors: ["姓名不能为空", "手机号格式无效"]
+            timestamp: "2023-12-01T10:00:00Z"
+
+    NotFoundError:
+      description: 资源未找到
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            data: null
+            message: "资源未找到"
+            errors: ["指定的预约不存在"]
+            timestamp: "2023-12-01T10:00:00Z"
+
+    ConflictError:
+      description: 资源冲突
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            data: null
+            message: "资源冲突"
+            errors: ["该时间段已满"]
+            timestamp: "2023-12-01T10:00:00Z"
+
+    UnauthorizedError:
+      description: 未授权访问
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            data: null
+            message: "未授权访问"
+            errors: ["需要管理员权限"]
+            timestamp: "2023-12-01T10:00:00Z"
+
+    ServerError:
+      description: 服务器内部错误
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            data: null
+            message: "服务器内部错误"
+            errors: ["数据库连接失败"]
+            timestamp: "2023-12-01T10:00:00Z"
+
+  securitySchemes:
+    AdminAuth:
+      type: apiKey
+      in: header
+      name: X-Admin-Token
+      description: 管理员认证令牌

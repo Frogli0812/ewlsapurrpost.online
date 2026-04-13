@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错误消息测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        button { margin: 0.5rem; padding: 0.5rem 1rem; }
+        .test-result { margin: 1rem 0; padding: 1rem; border-radius: 4px; background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <h1>🧪 错误消息处理测试</h1>
+    
+    <p>这个页面用于测试后端错误消息的正确显示</p>
+    
+    <div>
+        <button onclick="testCancelTooSoon()">测试"预约时间过近，无法取消"</button>
+        <button onclick="testBookingConflict()">测试"位置已被预约"</button>
+        <button onclick="testInvalidData()">测试"缺少必填字段"</button>
+    </div>
+    
+    <div id="test-results"></div>
+    
+    <!-- 引入工具类 -->
+    <script src="public/js/config.js"></script>
+    <script src="public/js/utils.js"></script>
+    
+    <script>
+        function addResult(message) {
+            const results = document.getElementById('test-results');
+            const div = document.createElement('div');
+            div.className = 'test-result';
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong>: ${message}`;
+            results.appendChild(div);
+        }
+        
+        // 模拟后端返回的错误响应
+        function simulateBackendError(errorResponse) {
+            // 这模拟了API请求返回的格式
+            const result = {
+                success: false,
+                message: errorResponse.message,
+                error: errorResponse.error,
+                errors: errorResponse.errors || [],
+                timestamp: errorResponse.timestamp
+            };
+            
+            // 使用与UI中相同的错误处理逻辑
+            const errorMessage = result.message || result.error || '未知错误';
+            
+            addResult(`模拟后端响应: ${JSON.stringify(errorResponse)}`);
+            addResult(`前端显示消息: "${errorMessage}"`);
+            
+            // 实际显示错误消息
+            if (window.Utils && Utils.showError) {
+                Utils.showError(errorMessage);
+            } else {
+                alert(errorMessage);
+            }
+        }
+        
+        function testCancelTooSoon() {
+            addResult('🧪 测试取消预约时间过近的错误...');
+            simulateBackendError({
+                "success": false,
+                "message": "预约时间过近，无法取消",
+                "errors": [],
+                "timestamp": "2025-09-26 14:16:16"
+            });
+        }
+        
+        function testBookingConflict() {
+            addResult('🧪 测试位置冲突的错误...');
+            simulateBackendError({
+                "success": false,
+                "message": "该位置已被预约，请选择其他位置",
+                "errors": [],
+                "timestamp": "2025-09-26 14:16:16"
+            });
+        }
+        
+        function testInvalidData() {
+            addResult('🧪 测试数据验证错误...');
+            simulateBackendError({
+                "success": false,
+                "message": "缺少必填字段：日期、时间、学生姓名或班级",
+                "errors": ["studentName is required", "studentClass is required"],
+                "timestamp": "2025-09-26 14:16:16"
+            });
+        }
+        
+        window.addEventListener('load', () => {
+            addResult('📱 错误消息测试页面已加载');
+            addResult('点击上方按钮测试不同的错误消息显示效果');
+        });
+    </script>
+</body>
+</html>

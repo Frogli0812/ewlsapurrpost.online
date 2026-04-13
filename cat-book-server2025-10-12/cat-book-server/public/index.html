@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WLSA PurrPost  豆花喵语栈 - 预约撸猫系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-cat"></i>
+                <h1>WLSA PurrPost  豆花喵语栈</h1>
+            </div>
+            <div class="header-info">
+                <p><i class="fas fa-clock"></i> 开放时间: 周二，周四 16:30~~</p>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> 首页</a></li>
+            <li><a href="#" class="nav-link" data-page="cats"><i class="fas fa-paw"></i> 猫咪介绍</a></li>
+            <li><a href="#" class="nav-link" data-page="booking"><i class="fas fa-calendar-check"></i> 预约时间段</a></li>
+            <li><a href="#" class="nav-link" data-page="manage"><i class="fas fa-clipboard-list"></i> 查询预约</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <!-- 主页 -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <h2>欢迎来到WLSA PurrPost  豆花喵语栈</h2>
+                <p>与我们的三只可爱猫咪一起度过美好时光，放松身心，享受治愈时刻</p>
+                <button class="btn" id="book-now-btn">
+                    <i class="fas fa-paw"></i> 立即预约
+                </button>
+            </div>
+            
+            <div class="safety-notice">
+                <h3><i class="fas fa-shield-alt"></i> 安全须知</h3>
+                
+                <div class="notice-section">
+                    <h4><i class="fas fa-door-open"></i> 一、入舍基本要求</h4>
+                    <ul class="notice-list">
+                        <li><i class="fas fa-calendar-check"></i> 需通过校园猫舍线上系统提前预约，每次入舍人数不超过 5人，单次互动时长不超过 20 分钟，避免猫咪过度应激哦~</li>
+                        <li><i class="fas fa-hands-wash"></i> 入舍前需在门口消毒区用免洗消毒液清洁双手，更换猫舍专用鞋套（禁止穿室外鞋入内）</li>
+                        <li><i class="fas fa-ban"></i> 禁止携带人食零食、饮料、塑料袋、尖锐物品及个人宠物进入猫舍</li>
+                        <li><i class="fas fa-tshirt"></i> 穿深色、无亮片 / 流苏的衣物（浅色易粘毛，小装饰可能被猫咪误食或勾伤），长发最好扎起</li>
+                    </ul>
+                </div>
+
+                <div class="notice-section">
+                    <h4><i class="fas fa-hand-holding-heart"></i> 二、撸猫行为规范</h4>
+                    <ul class="notice-list">
+                        <li><i class="fas fa-eye"></i> 互动前先观察猫咪状态：仅可接触主动靠近、尾巴放松（不竖毛 / 快速甩动）、耳朵向前的猫咪；对躲进猫窝、炸毛、哈气的猫咪，需保持 1 米以上距离</li>
+                        <li><i class="fas fa-hand-pointer"></i> 正确触摸部位：可轻摸头顶、下巴、背部（从颈后向尾巴方向顺毛）；禁止触碰肚子、尾巴根、爪子、耳朵内侧（敏感部位易引发猫咪反抗）</li>
+                        <li><i class="fas fa-smile-beam"></i> 动作轻柔缓慢：禁止抓抱猫咪（尤其是幼猫 / 老年猫）、拽尾巴、捏爪子、强行掰嘴，避免大声喧哗或突然奔跑</li>
+                        <li><i class="fas fa-exclamation-triangle"></i> 若猫咪出现挣扎、蹬腿、咬空气等抗拒行为，需立即停止互动，缓慢后退至猫咪放松</li>
+                    </ul>
+                </div>
+
+                <div class="notice-section">
+                    <h4><i class="fas fa-heartbeat"></i> 三、猫咪健康保护</h4>
+                    <ul class="notice-list">
+                        <li><i class="fas fa-utensils"></i> 禁止投喂自带食物（包括猫条、罐头），仅可使用猫舍管理员提供的专用猫粮 / 零食，且需在管理员指导下喂食</li>
+                        <li><i class="fas fa-user-md"></i> 不擅自给猫咪梳毛、剪指甲、喂药（特殊护理由专业志愿者操作）</li>
+                        <li><i class="fas fa-stethoscope"></i> 发现猫咪精神萎靡、打喷嚏、腹泻、外伤等异常，需第一时间告知管理员，不私自处理</li>
+                    </ul>
+                </div>
+
+                <div class="notice-section">
+                    <h4><i class="fas fa-user-shield"></i> 四、个人安全防护</h4>
+                    <ul class="notice-list">
+                        <li><i class="fas fa-first-aid"></i> 若被猫咪抓伤（出现血痕）或咬伤（破皮），请立即告知猫舍管理员，并立即用肥皂水冲洗伤口 15 分钟，涂抹碘伏消毒，并前往校医院与校医老师一起前往医院接种狂犬疫苗</li>
+                        <li><i class="fas fa-allergies"></i> 有猫毛过敏史、哮喘或严重洁癖者，建议提前确认自身状态，入舍后若出现不适立即离开</li>
+                        <li><i class="fas fa-gem"></i> 不佩戴戒指、手链、项链等饰品（易被猫咪勾住导致脱落或划伤猫咪）</li>
+                        <li><i class="fas fa-hands"></i> 禁止将手指伸进猫咪口腔，避免被误咬；互动后再次清洁双手，不揉眼睛、摸口鼻</li>
+                    </ul>
+                </div>
+
+                <div class="notice-section">
+                    <h4><i class="fas fa-broom"></i> 五、猫舍环境维护</h4>
+                    <ul class="notice-list">
+                        <li><i class="fas fa-couch"></i> 不随意移动猫窝、食盆、猫砂盆、玩具等物品，不向猫砂盆内丢弃垃圾</li>
+                        <li><i class="fas fa-toilet"></i> 猫咪如厕时不围观、不打扰，若发现猫砂盆需补充猫砂，告知管理员即可（不自行添加）</li>
+                        <li><i class="fas fa-door-closed"></i> 离开前确认所有猫咪均在安全区域（无猫咪靠近门口），将用过的鞋套、消毒湿巾放入指定垃圾桶</li>
+                        <li><i class="fas fa-camera"></i> 禁止在猫舍内拍照时使用闪光灯（易刺激猫咪眼睛），视频拍摄需控制音量</li>
+                    </ul>
+                </div>
+
+                <div class="notice-footer">
+                    <p><i class="fas fa-gavel"></i> <strong>附则：</strong>违反以上规定者，猫舍管理团队有权暂停其入舍资格；造成猫咪受伤或设备损坏的，需承担相应责任。</p>
+                    <p><i class="fas fa-heart"></i> 感谢各位同学对校园猫咪的关爱，让我们共同守护猫咪的幸福家园！</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 猫咪介绍页 -->
+        <section id="cats" class="page">
+            <h2><i class="fas fa-paw"></i> 我们的猫咪成员</h2>
+            <p>认识一下我们可爱的猫咪朋友们，它们都期待着与您互动！</p>
+            
+            <div class="cats-grid" id="cats-grid">
+                <!-- 猫咪信息将通过API动态加载 -->
+            </div>
+        </section>
+        
+        <!-- 预约页面 -->
+        <section id="booking" class="page">
+            <h2><i class="fas fa-calendar-check"></i> 预约撸猫</h2>
+            <p>请选择您想预约的日期和时间段，每个时间段最多5人</p>
+            
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> 预约说明</h3>
+                <p>您将与所有三只猫咪互动，无需选择特定猫咪。每个时间段最多允许5人预约，点击时间段可查看详细预约情况。</p>
+            </div>
+            
+            <form id="booking-form">
+                <div class="form-group">
+                    <label for="booking-date"><i class="fas fa-calendar-alt"></i> 选择日期</label>
+                    <input type="date" id="booking-date" required min="">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-clock"></i> 选择时间段 (每个时间段最多5人)</label>
+                    <div id="time-slots">
+                        <!-- 时间段将通过JS动态生成 -->
+                        <p class="loading">请选择日期查看可用时间段</p>
+                    </div>
+                </div>
+            </form>
+        </section>
+        
+        <!-- 预约管理页面 -->
+        <section id="manage" class="page">
+            <h2><i class="fas fa-clipboard-list"></i> 查询预约</h2>
+            <p>根据班级和姓名查询预约记录</p>
+            
+            <form id="query-form">
+                <div class="form-group">
+                    <label for="query-class"><i class="fas fa-school"></i> 班级</label>
+                    <input type="text" id="query-class" required placeholder="请输入您的班级，如：计算机1班">
+                </div>
+                
+                <div class="form-group">
+                    <label for="query-name"><i class="fas fa-user"></i> 姓名</label>
+                    <input type="text" id="query-name" required placeholder="请输入您的姓名">
+                </div>
+                
+                <button type="submit" class="btn">
+                    <i class="fas fa-search"></i> 查询预约
+                </button>
+            </form>
+            
+            <div id="bookings-result" style="margin-top: 2rem;">
+                <!-- 查询结果将动态显示 -->
+            </div>
+        </section>
+
+        <!-- 时间段详情页面 -->
+        <section id="timeslot-detail" class="page">
+            <h2><i class="fas fa-clock"></i> 时间段详情</h2>
+            <div id="timeslot-info">
+                <!-- 时间段信息将动态填充 -->
+            </div>
+            
+            <div class="positions-grid" id="positions-container">
+                <!-- 5个位置将动态生成 -->
+            </div>
+            
+            <div class="actions" style="margin-top: 2rem;">
+                <button class="btn btn-secondary" onclick="navigateToPage('booking')">
+                    <i class="fas fa-arrow-left"></i> 返回时间段列表
+                </button>
+            </div>
+        </section>
+
+        <!-- 新建预约页面 -->
+        <section id="new-booking" class="page">
+            <h2><i class="fas fa-plus-circle"></i> 新建预约</h2>
+            <div id="booking-info">
+                <!-- 预约信息将动态填充 -->
+            </div>
+            
+            <form id="student-booking-form">
+                <div class="form-group">
+                    <label for="student-class"><i class="fas fa-school"></i> 班级</label>
+                    <input type="text" id="student-class" required placeholder="请输入您的班级，如：计算机1班">
+                </div>
+                
+                <div class="form-group">
+                    <label for="student-name"><i class="fas fa-user"></i> 姓名</label>
+                    <input type="text" id="student-name" required placeholder="请输入您的姓名">
+                </div>
+                
+                <div class="form-group">
+                    <label for="student-note"><i class="fas fa-sticky-note"></i> 备注 (可选)</label>
+                    <input type="text" id="student-note" placeholder="如有特殊需求请在此说明">
+                </div>
+                
+                <div class="actions">
+                    <button type="button" class="btn btn-secondary" onclick="goBackToTimeslot()">
+                        <i class="fas fa-arrow-left"></i> 返回
+                    </button>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-check-circle"></i> 确认预约
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <h3>WLSA PurrPost  豆花喵语栈</h3>
+            <p>为您提供最治愈的撸猫体验</p>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-weibo"></i></a>
+                <a href="#"><i class="fab fa-qq"></i></a>
+                <a href="#"><i class="fas fa-envelope"></i></a>
+            </div>
+            
+            <p>地址: 上海市宝山区WLSA上海学校 | 电话: 123-456-7890</p>
+            <p>© 2023 WLSA PurrPost  豆花喵语栈 All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 请假通知弹窗 -->
+    <div class="modal" id="notice-modal" style="display:flex;">
+        <div class="modal-content" style="text-align:center;">
+            <h3><i class="fas fa-cat"></i> 今日公告</h3>
+            <p style="font-size:1.2rem; margin: 1rem 0;">今天小花和肉松请假啦！！！</p>
+            <div class="modal-buttons">
+                <button class="btn btn-success" onclick="document.getElementById('notice-modal').style.display='none'">
+                    <i class="fas fa-check"></i> 知道啦~
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 确认模态框 -->
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-check-circle"></i> 预约成功</h3>
+            <p>您的预约已提交成功！</p>
+            <div id="booking-details"></div>
+            <div class="modal-buttons">
+                <button class="btn btn-success" id="modal-confirm-btn">
+                    <i class="fas fa-check"></i> 确定
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript引入 -->
+    <script src="js/config.js?v=2"></script>
+    <script src="js/api.js?v=2"></script>
+    <script src="js/utils.js?v=2"></script>
+    <script src="js/ui.js?v=2"></script>
+    <script src="js/main.js?v=2"></script>
+    
+</body>
+</html>

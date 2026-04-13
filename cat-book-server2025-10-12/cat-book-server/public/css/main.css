@@ -1,0 +1,1066 @@
+/* CSS变量定义 */
+:root {
+    --primary-color: #ff9e80;
+    --secondary-color: #ffecb3;
+    --accent-color: #ff7043;
+    --text-color: #5d4037;
+    --light-color: #fff8e1;
+    --shadow: 0 2px 8px rgba(0,0,0,0.1);
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --danger-color: #f44336;
+}
+
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* 主体样式 */
+body {
+    background-color: #fdf6f0;
+    color: var(--text-color);
+    line-height: 1.6;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffccbc' fill-opacity='0.3' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* 头部样式 */
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border-bottom: 4px solid rgba(255,255,255,0.3);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    font-size: 2.5rem;
+}
+
+/* 导航样式 */
+nav {
+    background-color: white;
+    padding: 0.8rem;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+nav li {
+    margin: 0 1rem;
+}
+
+nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+nav a:hover, nav a.active {
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+}
+
+/* 主要内容区域 */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.page {
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 英雄区域样式 */
+.hero {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, rgba(255, 236, 179, 0.8), rgba(255, 158, 128, 0.8));
+    border-radius: 15px;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff7043' fill-opacity='0.2'%3E%3Cpath d='M0 0h10v10H0V0zm10 10h10v10H10V10z'/%3E%3C/g%3E%3C/svg%3E");
+    z-index: -1;
+    transform: rotate(30deg);
+}
+
+.hero h2 {
+    font-size: 2.8rem;
+    margin-bottom: 1.2rem;
+    color: var(--accent-color);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 按钮样式 */
+.btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.3s;
+    box-shadow: var(--shadow);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn i {
+    font-size: 1.2rem;
+}
+
+.btn-sm {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+}
+
+.btn-success {
+    background-color: var(--success-color);
+}
+
+/* 猫咪卡片网格 */
+.cats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+
+.cat-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.cat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+}
+
+.cat-image {
+    height: 280px;
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.cat-image::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* 猫咪图片样式 */
+.cat-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+}
+
+.default-cat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 5rem;
+    color: white;
+    position: relative;
+    z-index: 2;
+}
+
+.cat-info {
+    padding: 1.8rem;
+}
+
+.cat-info .cat-name {
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cat-info .cat-breed {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.cat-info .cat-description {
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+}
+
+.cat-info .cat-traits {
+    background: linear-gradient(135deg, rgba(255, 236, 179, 0.3), rgba(255, 158, 128, 0.2));
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.cat-info .cat-trait {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.cat-info .cat-trait strong {
+    color: var(--accent-color);
+    min-width: 80px;
+    font-weight: 600;
+}
+
+.cat-info p {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 表单样式 */
+.form-group {
+    margin-bottom: 1.8rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input, select {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 158, 128, 0.3);
+}
+
+/* 时间段选择样式 */
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.time-slot {
+    padding: 1rem;
+    text-align: center;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.time-slot:hover {
+    background-color: var(--secondary-color);
+}
+
+.time-slot.selected {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.time-slot.booked {
+    background-color: #e0e0e0;
+    color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+.slot-count {
+    font-size: 0.9rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.3);
+}
+
+.time-slot.selected .slot-count {
+    background: rgba(255,255,255,0.5);
+}
+
+.time-slot.booked .slot-count {
+    background: rgba(0,0,0,0.1);
+}
+
+/* 预约卡片样式 */
+.booking-card {
+    background: white;
+    padding: 1.8rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.8rem;
+    transition: all 0.3s;
+    border-left: 5px solid var(--primary-color);
+}
+
+.booking-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.booking-card h3 {
+    color: var(--accent-color);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.booking-card p {
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.booking-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 1.2rem;
+}
+
+/* 页脚样式 */
+footer {
+    text-align: center;
+    padding: 2.5rem;
+    margin-top: 4rem;
+    background-color: var(--text-color);
+    color: white;
+    border-top: 5px solid var(--primary-color);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.5rem;
+    transition: all 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+/* 信息盒子样式 */
+.info-box {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    border-left: 5px solid var(--accent-color);
+}
+
+.info-box h3 {
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rules-list {
+    list-style-type: none;
+}
+
+.rules-list li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rules-list li:last-child {
+    border-bottom: none;
+}
+
+/* 统计卡片样式 */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.stat-card i {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin: 0.5rem 0;
+}
+
+/* 安全须知样式 */
+.safety-notice {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
+}
+
+.safety-notice > h3 {
+    color: var(--accent-color);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--secondary-color);
+}
+
+.safety-notice > h3 i {
+    font-size: 2.2rem;
+}
+
+.notice-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 236, 179, 0.15), rgba(255, 158, 128, 0.1));
+    border-radius: 12px;
+    border-left: 5px solid var(--primary-color);
+}
+
+.notice-section h4 {
+    color: var(--accent-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notice-section h4 i {
+    color: var(--primary-color);
+}
+
+.notice-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.notice-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 158, 128, 0.2);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.notice-list li:last-child {
+    border-bottom: none;
+}
+
+.notice-list li i {
+    color: var(--primary-color);
+    margin-top: 0.3rem;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.notice-footer {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 112, 67, 0.1), rgba(255, 158, 128, 0.15));
+    border-radius: 12px;
+    border: 2px solid var(--secondary-color);
+}
+
+.notice-footer p {
+    margin: 0.8rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.8;
+}
+
+.notice-footer p i {
+    color: var(--accent-color);
+    margin-top: 0.3rem;
+    flex-shrink: 0;
+}
+
+.notice-footer strong {
+    color: var(--accent-color);
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal h3 {
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.modal p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* 暂无预约状态样式 */
+.no-bookings {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 2rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .cats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .time-slots {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    nav li {
+        margin: 0.3rem 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* ========================================
+   学生社团模式新增样式
+   ======================================== */
+
+/* 时间段网格布局 */
+.time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.time-slot {
+    background: white;
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.time-slot:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.time-slot.available {
+    border-color: var(--success-color);
+}
+
+.time-slot.full {
+    border-color: var(--secondary-color);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.slot-time {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.slot-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.slot-action {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* 位置卡片样式 */
+.positions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.position-card {
+    background: white;
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.position-card.available {
+    border-color: var(--success-color);
+    cursor: pointer;
+}
+
+.position-card.available:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: var(--success-color-light);
+}
+
+.position-card.booked {
+    border-color: var(--primary-color);
+    background: var(--primary-color-light);
+    border-width: 2px;
+    border-style: solid;
+}
+
+/* 确保在已预约卡片中学生信息清晰可见 */
+.position-card.booked .student-info {
+    background: rgba(255, 255, 255, 0.8); /* 添加半透明白色背景 */
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin: 0.5rem 0;
+}
+
+.position-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.student-info {
+    text-align: center;
+    margin: 0.5rem 0;
+}
+
+.student-name {
+    font-weight: bold;
+    color: #2c3e50; /* 深色，与班级形成对比 */
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+
+.student-class {
+    color: #6a4c93; /* 深紫色，提供良好的对比度 */
+    font-size: 0.9rem;
+    font-weight: 600; /* 稍微加粗，增强可读性 */
+    margin-bottom: 0.25rem;
+}
+
+.note {
+    font-size: 0.8rem;
+    color: var(--text-color);
+    font-style: italic;
+    margin-top: 0.25rem;
+}
+
+.add-booking {
+    color: var(--success-color);
+    font-size: 1.1rem;
+}
+
+.add-booking i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* 时间段详情页面 */
+.timeslot-header {
+    background: var(--primary-color-light);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.timeslot-header h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--primary-color);
+}
+
+.capacity-info {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.capacity-info .booked {
+    color: var(--primary-color);
+}
+
+.capacity-info .total {
+    color: var(--secondary-color);
+}
+
+/* 预约摘要 */
+.booking-summary {
+    background: var(--accent-color-light);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.booking-summary h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.booking-summary p {
+    margin: 0.5rem 0;
+    color: var(--text-color);
+}
+
+/* 预约查询结果 */
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.booking-card {
+    background: white;
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.booking-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.booking-card.confirmed {
+    border-left: 4px solid var(--success-color);
+}
+
+.booking-card.cancelled {
+    border-left: 4px solid var(--danger-color);
+    opacity: 0.7;
+}
+
+.booking-card.completed {
+    border-left: 4px solid var(--primary-color);
+}
+
+.booking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.booking-header .date {
+    color: var(--primary-color);
+}
+
+.booking-header .time {
+    color: var(--secondary-color);
+}
+
+.booking-header .status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.status.confirmed {
+    background: var(--success-color);
+}
+
+.status.cancelled {
+    background: var(--danger-color);
+}
+
+.status.completed {
+    background: var(--primary-color);
+}
+
+.booking-details p {
+    margin: 0.25rem 0;
+    color: var(--text-color);
+}
+
+.booking-details p i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+    width: 16px; /* 确保图标对齐 */
+}
+
+/* 学生身份信息样式优化 */
+.booking-details p:first-child {
+    font-weight: 600; /* 学生信息稍微加粗 */
+    color: #2c3e50; /* 深色，确保可读性 */
+}
+
+.booking-actions {
+    margin-top: 0.5rem;
+    text-align: right;
+}
+
+/* 按钮样式更新 */
+.btn-small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+.btn-danger {
+    background: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background: #c82333;
+    border-color: #bd2130;
+}
+
+/* CSS变量补充 */
+:root {
+    --success-color: #28a745;
+    --success-color-light: rgba(40, 167, 69, 0.1);
+    --danger-color: #dc3545;
+    --primary-color-light: rgba(255, 152, 0, 0.1);
+    --accent-color-light: rgba(255, 193, 7, 0.1);
+}
+
+/* 无数据状态 */
+.no-data {
+    text-align: center;
+    padding: 2rem;
+    color: var(--secondary-color);
+}
+
+.no-data i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* 移动端适配更新 */
+@media (max-width: 768px) {
+    .time-slots-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .positions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .booking-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .position-card {
+        min-height: 120px;
+    }
+    
+    .position-number {
+        font-size: 1.5rem;
+    }
+}
